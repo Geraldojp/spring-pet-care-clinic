@@ -10,13 +10,13 @@ import org.springframework.jdbc.support.KeyHolder;
 import javax.sql.DataSource;
 import java.util.List;
 
-public class OwnerRepo implements PetModelRepoInterface<Owner> {
+public class OwnerRepo implements OwnerRepoInterface {
     private JdbcTemplate jdbcTemplate;
     public OwnerRepo(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     @Override
-    public Owner create(Owner owner){
+    public Owner create(Owner owner) throws Exception{
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             var ps = connection.prepareStatement("INSERT INTO owner (owner_name, address, city, telephone) VALUES (?,?,?,?)", new String[]{"owner_id"});
@@ -30,7 +30,7 @@ public class OwnerRepo implements PetModelRepoInterface<Owner> {
         return owner;
     }
     @Override
-    public Owner update(Owner owner, Long id){
+    public Owner update(Owner owner, Long id)throws Exception{
         jdbcTemplate.update("UPDATE owner SET owner_name = ?, address = ?, city = ?, telephone = ? WHERE owner_id = ?",
                 owner.getName(),
                 owner.getAddress(),
@@ -40,18 +40,18 @@ public class OwnerRepo implements PetModelRepoInterface<Owner> {
         return owner;
     }
     @Override
-    public List<Owner> getAll(){
+    public List<Owner> getAll()throws Exception{
         List<Owner> listOwner =  jdbcTemplate.query("SELECT * FROM owner ORDER BY owner_id", new OwnerMapper());
         return listOwner;
     }
     @Override
-    public Owner getById(Long id){
+    public Owner getById(Long id)throws Exception{
         Owner owner = jdbcTemplate.queryForObject("SELECT * FROM owner WHERE owner_id = ?", new Object[]{id}, new OwnerMapper());
         System.out.println(owner);
         return owner;
     }
     @Override
-    public void delete(Long id){
+    public void delete(Long id)throws Exception{
         jdbcTemplate.update("DELETE FROM owner WHERE owner_id = ?", id);
     }
 }

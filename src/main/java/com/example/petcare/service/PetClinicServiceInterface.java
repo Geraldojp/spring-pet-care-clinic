@@ -1,12 +1,14 @@
 package com.example.petcare.service;
 
+import com.example.petcare.model.PetClinic;
+
 import java.util.List;
 
-public interface PetServiceInterface<T> {
-    T create (T t);
-    T update(T t, Long id);
-    List<T> getAll();
-    T getById(Long id);
+public interface PetClinicServiceInterface {
+    PetClinic create (PetClinic petClinic);
+    PetClinic update(PetClinic petClinic, Long id);
+    List<PetClinic> getAll();
+    PetClinic getById(Long id);
     void delete(Long id);
 
 }

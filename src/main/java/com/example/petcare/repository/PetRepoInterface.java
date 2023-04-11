@@ -6,9 +6,9 @@ import com.example.petcare.model.Pet;
 import java.util.List;
 
 public interface PetRepoInterface {
-    Pet create(Pet pet);
-    Pet update(Pet pet, Long id);
-    List<PetDTO> getAll();
-    PetDTO getById(Long id);
-    void delete(Long id);
+    Pet create(Pet pet) throws Exception;
+    Pet update(Pet pet, Long id) throws Exception;
+    List<PetDTO> getAll() throws Exception;
+    PetDTO getById(Long id) throws Exception;
+    void delete(Long id) throws Exception;
 }

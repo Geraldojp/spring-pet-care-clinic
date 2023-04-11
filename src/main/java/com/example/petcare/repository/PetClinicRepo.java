@@ -6,12 +6,13 @@ import com.example.petcare.model.mapper.PetClinicMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import com.example.petcare.repository.PetClinicRepoInterface;
 
 import javax.sql.DataSource;
 import java.util.List;
 
 
-public class PetClinicRepo implements PetModelRepoInterface<PetClinic>{
+public class PetClinicRepo implements PetClinicRepoInterface  {
     private JdbcTemplate jdbcTemplate;
 
     public PetClinicRepo(DataSource dataSource) {
@@ -19,7 +20,7 @@ public class PetClinicRepo implements PetModelRepoInterface<PetClinic>{
     }
 
     @Override
-    public PetClinic create(PetClinic petClinic) {
+    public PetClinic create(PetClinic petClinic)throws Exception  {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             var ps = connection.prepareStatement("INSERT INTO pet_clinic (service_name, price, description) VALUES (?,?,?)", new String[]{"pet_clinic_id"});
@@ -32,7 +33,7 @@ public class PetClinicRepo implements PetModelRepoInterface<PetClinic>{
     }
 
     @Override
-    public PetClinic update(PetClinic petClinic, Long id) {
+    public PetClinic update(PetClinic petClinic, Long id)throws Exception {
         jdbcTemplate.update("UPDATE pet_clinic SET service_name = ?, price = ?, description = ? WHERE pet_clinic_id = ?",
                 petClinic.getServiceName(),
                 petClinic.getPrice(),
@@ -41,17 +42,17 @@ public class PetClinicRepo implements PetModelRepoInterface<PetClinic>{
         return petClinic;
     }
     @Override
-    public List<PetClinic> getAll() {
+    public List<PetClinic> getAll() throws Exception{
         return jdbcTemplate.query("SELECT * FROM pet_clinic", new PetClinicMapper());
     }
 
     @Override
-    public PetClinic getById(Long id) {
+    public PetClinic getById(Long id)throws Exception {
         return jdbcTemplate.queryForObject("SELECT * FROM pet_clinic WHERE pet_clinic_id = ?", new Object[]{id}, new PetClinicMapper());
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id)throws Exception {
         jdbcTemplate.update("DELETE FROM pet_clinic WHERE pet_clinic_id = ?", id);
     }
 }

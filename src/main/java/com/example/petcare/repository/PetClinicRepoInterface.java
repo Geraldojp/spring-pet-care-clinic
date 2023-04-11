@@ -1,13 +1,13 @@
 package com.example.petcare.repository;
 
-import com.example.petcare.model.Pet;
+import com.example.petcare.model.PetClinic;
 
 import java.util.List;
 
-public interface PetModelRepoInterface<T,M> {
-    M create(M m);
-    M update(M m, Long id);
-    List<T> getAll();
-    T getById(Long id);
-    void delete(Long id);
+public interface PetClinicRepoInterface {
+    PetClinic create(PetClinic petClinic) throws Exception;
+    PetClinic update(PetClinic petClinic, Long id) throws Exception;
+    List<PetClinic> getAll() throws Exception;
+    PetClinic getById(Long id) throws Exception;
+    void delete(Long id) throws Exception;
 }

@@ -1,42 +1,73 @@
 package com.example.petcare.service;
 
-import com.example.petcare.model.DTO.PetDTO;
 import com.example.petcare.model.Owner;
 
-import com.example.petcare.repository.PetModelRepoInterface;
+import com.example.petcare.repository.OwnerRepoInterface;
+
+import java.lang.Exception;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-@Transactional
-public class OwnerService implements PetModelServiceInterface<Owner> {
-    private PetModelRepoInterface<Owner> ownerRepo;
 
-    public OwnerService(PetModelRepoInterface<Owner> ownerRepo) {
+@Transactional
+public class OwnerService implements OwnerServiceInterface {
+    private OwnerRepoInterface ownerRepo;
+
+    public OwnerService(OwnerRepoInterface ownerRepo) {
         this.ownerRepo = ownerRepo;
     }
 
     @Override
     public Owner create(Owner owner) {
-        return ownerRepo.create(owner);
+        try {
+            return ownerRepo.create(owner);
+        } catch (Exception e) {
+            System.out.println("Error create owner");
+            return null;
+        }
     }
 
     @Override
     public Owner update(Owner owner, Long id) {
-        return ownerRepo.update(owner, id);
+        try {
+            return ownerRepo.update(owner, id);
+        } catch (Exception e) {
+            System.out.println("Error update owner");
+            return null;
+        }
     }
 
     @Override
     public List<Owner> getAll() {
-        return ownerRepo.getAll();
+        try {
+            return ownerRepo.getAll();
+        } catch (Exception e) {
+            System.out.println("Error get all owner");
+            return null;
+        }
     }
 
     @Override
     public Owner getById(Long id) {
-        return ownerRepo.getById(id);
+        while (true){
+            try {
+                Owner owner = ownerRepo.getById(id);
+                return owner;
+            } catch (Exception e) {
+                System.out.println("Error get owner by id");
+                return null;
+
+            }
+        }
     }
 
     @Override
     public void delete(Long id) {
-        ownerRepo.delete(id);
+        try {
+            ownerRepo.delete(id);
+        } catch (Exception e) {
+            System.out.println("Error delete owner");
+        }
     }
 }
